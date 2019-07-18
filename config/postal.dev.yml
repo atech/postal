@@ -23,6 +23,7 @@ rabbitmq:
 
 smtp_server:
   port: 2525
+  threads: 2
 
 rails:
   environment: development

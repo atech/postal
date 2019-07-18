@@ -80,6 +80,8 @@ smtp_server:
   log_connect: true
   strip_received_headers: false
   max_message_size: 14 # size in Megabytes
+  min_threads: 2
+  max_threads: 10
 
 smtp_relays:
   -

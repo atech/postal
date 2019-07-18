@@ -193,7 +193,9 @@ module Postal
 
       def authenticate(password)
         if @credential = Credential.where(:type => 'SMTP', :key => password).first
-          @credential.use
+          Credential.transaction do
+            @credential.with_lock { @credential.use }
+          end
           "235 Granted for #{@credential.server.organization.permalink}/#{@credential.server.permalink}"
         else
           "535 Invalid credential"
@@ -215,7 +217,9 @@ module Postal
             correct_response = OpenSSL::HMAC.hexdigest(CRAM_MD5_DIGEST, credential.key, challenge)
             if password == correct_response
               @credential = credential
-              @credential.use
+              Credential.transaction do
+                @credential.with_lock { @credential.use }
+              end
               grant = "235 Granted for #{credential.server.organization.permalink}/#{credential.server.permalink}"
               break
             end
@@ -446,6 +450,7 @@ module Postal
           end
         end
         transaction_reset
+
         @state = :welcomed
         '250 OK'
       end

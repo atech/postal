@@ -6,7 +6,7 @@ require 'spec_helper'
 require 'factory_bot'
 require 'database_cleaner'
 
-FACTORIES_EXCLUDED_FROM_LINT = []
+FACTORIES_EXCLUDED_FROM_LINT = [:credential]
 Dir[File.expand_path('../factories/*.rb', __FILE__)].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!

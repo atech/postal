@@ -30,6 +30,9 @@ gem 'jwt'
 gem 'createsend', '~> 4.0'
 gem 'acme-client'
 gem 'highline', :require => true
+gem 'tzinfo-data'
+gem 'concurrent-ruby', require: 'concurrent'
+gem 'concurrent-ruby-ext'
 
 group :development, :assets do
   gem 'sass-rails', '~> 5.0'

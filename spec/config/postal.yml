@@ -14,13 +14,15 @@ general:
 main_db:
   host: 127.0.0.1
   username: root
-  password:
+  password: passdb
   database: postal_test
+  pool_size: 10
+  timeout: 1000
 
 message_db:
   host: 127.0.0.1
   username: root
-  password:
+  password: passdb
   prefix: postal_test
 
 rabbitmq:
@@ -31,6 +33,8 @@ rabbitmq:
 
 smtp_server:
   port: 2525
+  min_threads: 2
+  max_threads: 4
 
 dns:
   mx_records:
@@ -48,6 +52,10 @@ smtp:
   password:
   from_name: Postal
   from_address: postal@yourdomain.com
+
+smtp_server:
+  tls_enabled: true
+  port: 2525
 
 rails:
   environment: test

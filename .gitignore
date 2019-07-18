@@ -16,6 +16,8 @@
 # Ignore Byebug command history file.
 .byebug_history
 
+.vscode/
+
 config/postal.yml
 config/smtp.cert
 config/smtp.key

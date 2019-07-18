@@ -565,8 +565,10 @@ module Postal
         last_id = @database.insert('messages', @attributes.reject {|k,v| k == :id })
         @attributes['id'] = last_id
         @database.statistics.increment_all(self.timestamp, self.scope)
-        Statistic.global.increment!(:total_messages)
-        Statistic.global.increment!("total_#{self.scope}".to_sym)
+        Statistic.transaction do
+          Statistic.global.with_lock { Statistic.global.increment!(:total_messages) }
+          Statistic.global.with_lock { Statistic.global.increment!("total_#{self.scope}".to_sym) }
+        end
         add_to_message_queue
       end
 
