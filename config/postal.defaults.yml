@@ -20,6 +20,10 @@ web_server:
   bind_address: 127.0.0.1
   port: 5000
   max_threads: 5
+  ssl_enabled: false
+  server_key: # Defaults to config/fast_server.key
+  server_crt: # Defaults to config/fast_server.cert
+  ssl_ciphers: # Defaults TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA
 
 fast_server:
   enabled: false
