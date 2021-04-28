@@ -73,6 +73,7 @@ controller :send do
     param :bounce, "Is this message a bounce?", :type => :boolean
     returns Hash
     error 'UnauthenticatedFromAddress', "The From address is not authorised to send mail from this server"
+    error 'FromAddressMissing', "There was no valid From address found in this email."
     action do
       # Decode the raw message
       raw_message = Base64.decode64(params.data)
@@ -84,7 +85,11 @@ controller :send do
 
       # If we're not authenticated, don't continue
       if authenticated_domain.nil?
-        error 'UnauthenticatedFromAddress'
+        if mail.from.nil? || mail.from.empty? || !/@/.match(mail.from.first)
+          error 'FromAddressMissing'
+        else
+          error 'UnauthenticatedFromAddress'
+        end
       end
 
       # Store the result ready to return
