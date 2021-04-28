@@ -11,7 +11,7 @@ module Postal
 
     def add(severity, message = nil, progname = nil)
       super
-      if severity >= @level && n = self.class.greylog_notifier
+      if severity >= @level && n = self.class.graylog_notifier
         begin
           if message.nil?
             message = block_given? ? yield : progname
@@ -26,12 +26,20 @@ module Postal
       true
     end
 
-    def self.greylog?
-      !!Postal.config.logging.greylog&.host
+    def self.graylog?
+      !!Postal.config.logging.graylog&.host
     end
 
-    def self.greylog_notifier
-      @greylog_notifier ||= greylog? ? GELF::Notifier.new(Postal.config.logging.greylog.host, Postal.config.logging.greylog.port) : nil
+    def self.graylog_options
+      if Postal.config.logging.graylog.protocol == "tcp"
+        return {:protocol => GELF::Protocol::TCP}
+      else
+        return {}
+      end
+    end
+
+    def self.graylog_notifier
+      @graylog_notifier ||= graylog? ? GELF::Notifier.new(Postal.config.logging.graylog.host, Postal.config.logging.graylog.port, 'WAN', graylog_options) : nil
     end
   end
 

@@ -48,9 +48,10 @@ logging:
   root: # Automatically determined based on config root
   max_log_file_size: 20
   max_log_files: 10
-  greylog:
+  graylog:
     host:
     port: 12201
+    protocol: udp
 
 message_db:
   host: 127.0.0.1
