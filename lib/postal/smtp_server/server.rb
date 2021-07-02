@@ -41,6 +41,9 @@ module Postal
           ssl_context.key  = Postal.smtp_private_key
           ssl_context.ssl_version = Postal.config.smtp_server.ssl_version if Postal.config.smtp_server.ssl_version
           ssl_context.ciphers = Postal.config.smtp_server.tls_ciphers if Postal.config.smtp_server.tls_ciphers
+          ssl_context.tmp_ecdh_callback = Proc.new do |*a|
+            OpenSSL::PKey::EC.new("prime256v1")
+          end
           ssl_context
         end
       end
