@@ -6,6 +6,8 @@ module Postal
       class ClientWentAway < StandardError; end
       class BadRequest < StandardError; end
 
+      attr_reader :remote_ip
+
       def initialize(socket, options)
         @raw_socket = socket
         @options = options
@@ -59,6 +61,8 @@ module Postal
                 header_set << HTTPHeader.from_string(header.chomp)
               end
             end
+
+            extract_ip(header_set)
 
             # At this point, one might want to read the request body, but I don't think we need it.
 
@@ -120,8 +124,19 @@ module Postal
         !!@options[:ssl]
       end
 
-      def remote_ip
-        @remote_ip || @raw_socket.peeraddr[3].sub('::ffff:', '')
+      def extract_ip(header_set)
+        return if @remote_ip
+
+        if header_set['X-Forwarded-For']
+          ips = header_set['X-Forwarded-For'].value.split(', ')
+
+          if ips[0]
+            @remote_ip = ips[0]
+            return
+          end
+        end
+
+        @remote_ip = @raw_socket.peeraddr[3].sub('::ffff:', '')
       end
 
       def self.ssl_context(domain_name = nil)
