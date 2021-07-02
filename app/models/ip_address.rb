@@ -9,6 +9,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  hostname   :string(255)
+#  priority   :integer
 #
 
 class IPAddress < ApplicationRecord

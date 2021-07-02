@@ -63,7 +63,18 @@ class QueuedMessage < ApplicationRecord
 
   def allocate_ip_address
     if Postal.ip_pools? && self.message && pool = self.server.ip_pool_for_message(self.message)
-      self.ip_address = pool.ip_addresses.order("RAND()").first
+      pool_rand = []
+      pool.ip_addresses.each do |ip|
+          prio = ip.priority ||= 0
+          (1..prio).each do |ctn|
+              pool_rand << ip.id
+          end
+      end
+      unless pool_rand.blank?
+        self.ip_address = pool.ip_addresses.find(pool_rand.sample)
+      else
+        self.ip_address = pool.ip_addresses.order("RAND()").first
+      end
     end
   end
 

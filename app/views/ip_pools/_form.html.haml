@@ -12,6 +12,7 @@
           %td IPv4
           %td IPv6
           %td Hostname
+          %td Priority
       %tbody
         - if @ip_pool.ip_addresses.empty?
           %tr
@@ -20,8 +21,9 @@
           - for ip in @ip_pool.ip_addresses
             %tr
               %td{:width => "20%"}= link_to ip.ipv4, [:edit, @ip_pool, ip], :class => "u-link"
-              %td{:width => "40%"}= ip.ipv6
-              %td{:width => "40%"}= ip.hostname
+              %td{:width => "35%"}= ip.ipv6
+              %td{:width => "35%"}= ip.hostname
+              %td{:width => "10%"}= ip.priority
     %p= link_to "Add an IP address to pool", [:new, @ip_pool, :ip_address], :class => "u-link"
 
 

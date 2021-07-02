@@ -10,6 +10,9 @@
     .fieldSet__field
       = f.label :hostname, :class => 'fieldSet__label'
       .fieldSet__input= f.text_field :hostname, :class => 'input input--text'
+    .fieldSet__field
+      = f.label :priority, :class => 'fieldSet__label'
+      .fieldSet__input= f.text_field :priority, :class => 'input input--text'
 
   .fieldSetSubmit.buttonSet
     = f.submit :class => 'button button--positive js-form-submit'

@@ -33,7 +33,7 @@ class IPAddressesController < ApplicationController
   private
 
   def safe_params
-    params.require(:ip_address).permit(:ipv4, :ipv6, :hostname)
+    params.require(:ip_address).permit(:ipv4, :ipv6, :hostname, :priority)
   end
 
 end
