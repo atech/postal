@@ -12,7 +12,8 @@ class UserController < ApplicationController
 
   def create
     @user_invite = UserInvite.active.find_by!(:uuid => params[:invite_token])
-    @user = User.new(params.require(:user).permit(:first_name, :last_name, :email_address, :password, :password_confirmation))
+    @user = User.new(params.require(:user).permit(:first_name, :last_name, :password, :password_confirmation))
+    @user.email_address = @user_invite.email_address
     @user.email_verified_at = Time.now
     if @user.save
       @user_invite.accept(@user)
