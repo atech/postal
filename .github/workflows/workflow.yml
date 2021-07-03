@@ -1,0 +1,25 @@
+name: DockerCI
+on:
+  push:
+    branches:
+    - master
+  schedule:
+    - cron:  '0 0 * * *'
+jobs:
+  run:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build container and push to registries
+      env:
+        GITHUB_PASS: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_USER: ${{ github.actor }}
+        REPO: ${{ github.repository }}
+        NAME: postal
+      shell: bash
+      run: |
+        echo "$GITHUB_PASS" | docker login docker.pkg.github.com -u "$GITHUB_USER" --password-stdin  
+        docker build -t "docker.pkg.github.com/${REPO}/${NAME}" .
+        docker push "docker.pkg.github.com/${REPO}/${NAME}"

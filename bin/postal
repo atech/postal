@@ -4,7 +4,7 @@ set -e
 
 # If we're executing from /usr then we should update the root directory
 # to our default installation path and we should be allowed to sudo.
-if [ $ROOT_DIR == "/usr" ]; then
+if [ "$ROOT_DIR" == "/usr" ]; then
   SHOULD_SUDO="yes"
   ROOT_DIR=/opt/postal/app
 else
@@ -13,19 +13,19 @@ fi
 
 # If we we can sudo and the current user isn't postal, then automatically
 # run commands as the postal user
-if [ $SHOULD_SUDO == "yes" ] && [ $USER != "postal" ]; then
+if [ "$SHOULD_SUDO" == "yes" ] && [ "$USER" != "postal" ]; then
     run() {
         HOME=/opt/postal
         eval "sudo -E -u postal $@"
     }
 else
     run() {
-        eval $@
+        eval "$@"
     }
 fi
 
 # Enter the root directory
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 
 # Run the right command
 case "$1" in
