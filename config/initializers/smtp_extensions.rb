@@ -8,7 +8,7 @@ class Net::SMTP
   attr_accessor :source_address
 
   def secure_socket?
-    @socket.is_a?(OpenSSL::SSL::SSLSocket)
+    @socket.io.is_a?(OpenSSL::SSL::SSLSocket)
   end
 
   #
