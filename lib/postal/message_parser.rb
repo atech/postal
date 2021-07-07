@@ -1,7 +1,7 @@
 module Postal
   class MessageParser
 
-    URL_REGEX = /(?<url>(?<protocol>https?)\:\/\/(?<domain>[A-Za-z0-9\-\.]+)(?<path>\/[A-Za-z0-9\/\.\/\+\?\&\-\_\%\=\~\:\;]+)?+)/
+    URL_REGEX = /(?<url>(?<protocol>https?)\:\/\/(?<domain>[A-Za-z0-9\-\.\:]+)(?<path>\/[A-Za-z0-9\.\/\+\?\&\-\_\%\=\~\:\;\(\)\[\]#]*)?+)/
 
     def initialize(message)
       @message = message
@@ -93,10 +93,15 @@ module Postal
 
     def insert_links(part, type = nil)
       if type == :text
-        part.gsub!(/#{URL_REGEX}/) do
+        part.gsub!(/(#{URL_REGEX})(?=\s|$)/) do
           if track_domain?($~[:domain])
             @tracked_links += 1
-            token = @message.create_link($~[:url])
+            url = $~[:url]
+            while url =~ /[^\w]$/ do
+              theend = url.size - 2
+              url = url[0..theend]
+            end
+            token = @message.create_link(url)
             "#{domain}/#{@message.server.token}/#{token}"
           else
             $&
