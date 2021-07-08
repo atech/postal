@@ -49,7 +49,7 @@ module Postal
         if ENV['SERVER_FD']
           @server = TCPServer.for_fd(ENV['SERVER_FD'].to_i)
         else
-          @server = TCPServer.open('::', Postal.config.smtp_server.port)
+          @server = TCPServer.open(Postal.config.smtp_server.host, Postal.config.smtp_server.port)
         end
         @server.autoclose = false
         @server.close_on_exec = false

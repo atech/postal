@@ -71,6 +71,7 @@ workers:
   threads: 4
 
 smtp_server:
+  host: 127.0.0.1 ## This should be the IP address that Postal will listen on for incoming SMTP connections
   port: 25
   tls_enabled: false
   tls_certificate_path: # Defaults to config/smtp.cert
