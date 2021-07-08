@@ -252,7 +252,13 @@ module Postal
         end
 
         rcpt_to = data.gsub(/RCPT TO\s*:\s*/i, '').gsub(/.*</, '').gsub(/>.*/, '').strip
+        if rcpt_to.blank?
+          return '501 RCPT TO should not be empty'
+        end
         uname, domain = rcpt_to.split('@', 2)
+        if uname.blank? || domain.blank?
+          return '501 Invalid RCPT TO'
+        end
         uname, tag = uname.split('+', 2)
 
         if domain == Postal.config.dns.return_path || domain =~ /\A#{Regexp.escape(Postal.config.dns.custom_return_path_prefix)}\./
