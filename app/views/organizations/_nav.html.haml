@@ -7,5 +7,4 @@
       - if Postal.ip_pools?
         %li.navBar__item= link_to "IPs", organization_ip_pools_path(organization), :class => ['navBar__link', active_nav == :ips ? 'is-active' : '']
       %li.navBar__item= link_to "Users", organization_users_path(organization), :class => ['navBar__link', active_nav == :users ? 'is-active' : '']
-      - if organization.owner?(current_user)
-        %li.navBar__item= link_to "Delete Organization", organization_delete_path(organization), :class => ['navBar__link', active_nav == :delete ? 'is-active' : '']
+      %li.navBar__item= link_to "Delete Organization", organization_delete_path(organization), :class => ['navBar__link', active_nav == :delete ? 'is-active' : '']
