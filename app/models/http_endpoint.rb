@@ -21,8 +21,6 @@
 
 class HTTPEndpoint < ApplicationRecord
 
-  DEFAULT_TIMEOUT = 5
-
   include HasUUID
 
   belongs_to :server
@@ -40,7 +38,7 @@ class HTTPEndpoint < ApplicationRecord
   validates :format, :inclusion => {:in => FORMATS}
   validates :timeout, :numericality => {:greater_than_or_equal_to => 5, :less_than_or_equal_to => 60}
 
-  default_value :timeout, -> { DEFAULT_TIMEOUT }
+  default_value :timeout, -> { Postal.config.general.webhook_timeout }
 
   def description
     "#{name} (#{url})"

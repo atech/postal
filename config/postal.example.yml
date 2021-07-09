@@ -13,6 +13,7 @@ fast_server:
 general:
   # This can be changed to allow messages to be sent from multiple IP addresses
   use_ip_pools: false
+  webhook_timeout: 5
 
 main_db:
   # Specify the connection details for your MySQL database

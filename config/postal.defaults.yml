@@ -15,6 +15,7 @@ general:
   maximum_hold_expiry_days: 7
   suppression_list_removal_delay: 30
   use_local_ns_for_domains: false
+  webhook_timeout: 5
 
 web_server:
   bind_address: 127.0.0.1

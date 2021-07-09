@@ -14,7 +14,7 @@ module Postal
 
       request_options = {}
       request_options[:sign] = true
-      request_options[:timeout] = @endpoint.timeout || 5
+      request_options[:timeout] = @endpoint.timeout || Postal.config.general.webhook_timeout
       case @endpoint.encoding
       when 'BodyAsJSON'
         request_options[:json] = parameters(message, :flat => false).to_json

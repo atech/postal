@@ -54,7 +54,7 @@ class WebhookRequest < ApplicationRecord
     logger = Postal.logger_for(:webhooks)
     payload = {:event => self.event, :timestamp => self.created_at.to_f, :payload => self.payload, :uuid => self.uuid}.to_json
     logger.info "[#{id}] Sending webhook request to `#{self.url}`"
-    result = Postal::HTTP.post(self.url, :sign => true, :json => payload, :timeout => 5)
+    result = Postal::HTTP.post(self.url, :sign => true, :json => payload, :timeout => Postal.config.general.webhook_timeout)
     self.attempts += 1
     self.retry_after = RETRIES[self.attempts]&.from_now
     self.server.message_db.webhooks.record(
